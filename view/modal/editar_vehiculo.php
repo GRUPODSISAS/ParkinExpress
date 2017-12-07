@@ -7,7 +7,7 @@
 			</i> Editar Vehiculo</h4>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" method="post" id="add_vehiculo" name="add_vehiculo">
+			<form class="form-horizontal" id="editarVehiculoCli">
 			
 			  <div class="form-group">
 				<label for="placa" class="col-sm-3 control-label">Placa</label>
@@ -26,7 +26,7 @@
 				<label for="categoria" class="col-sm-3 control-label">Categoria Vehiculo</label>
 				<div class="col-sm-8">
 				 <select class="form-control" id="categoria" name="categoria" required>
-					<option value="">-- Selecciona la categoria del vehiculo --</option>
+					<option value="0">-- Selecciona la categoria del vehiculo --</option>
 					<option value="1" selected>AUTOMOVIL</option>
 					<option value="2">MOTOCICLETA</option>
 				  </select>
@@ -37,7 +37,7 @@
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-			<button type="submit" class="btn btn-primary" id="Agregar_vehiculo	">Agregar</button>
+			<button type="button" class="btn btn-primary" name="button" id="editInfoVehic">Editar Vehiculo</button>
 		  </div>
 		  </form>
 		</div>

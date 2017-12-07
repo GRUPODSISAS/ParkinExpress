@@ -33,8 +33,55 @@ class registroUsuario {
 
 
 
-    }
+    }// fin registrar usuario
 
+
+    function editarUsuario($usu_id, $nombres, $apellidos, $correo)
+    {
+      $mysqli = getConnexion();
+      $usu_id = $mysqli->real_escape_string($usu_id);
+      $nombres = $mysqli->real_escape_string($nombres);
+      $apellidos = $mysqli->real_escape_string($apellidos);
+      $correo = $mysqli->real_escape_string($correo);
+      
+      $query = "update cliente 
+                SET Nombres= '".$nombres."', Apellidos= '".$apellidos."', Correo_Electronico= '".$correo."'
+                WHERE idCliente ='".$usu_id."'";
+
+      if ($mysqli->query($query) === TRUE){
+            session_start();
+            $_SESSION['Nombres']   = $nombres;
+            $_SESSION['Apellidos'] = $apellidos;
+            $_SESSION['Correo_Electronico']   = $correo;
+            echo 'correcto_1';
+          }else {
+           echo 'Fallo_5';
+          }
+    }//fin funcion editarUsuario
+
+    function editarUsuarioPass($usu_id, $nombres, $apellidos, $correo, $pass1){
+      $mysqli = getConnexion();
+      $usu_id = $mysqli->real_escape_string($usu_id);
+      $nombres = $mysqli->real_escape_string($nombres);
+      $apellidos = $mysqli->real_escape_string($apellidos);
+      $correo = $mysqli->real_escape_string($correo);
+      $pass = $mysqli->real_escape_string($pass1);
+      
+       $query = "update cliente 
+                SET Nombres= '".$nombres."', Apellidos= '".$apellidos."', Correo_Electronico= '".$correo."', Password= md5('".$pass."')
+                WHERE idCliente ='".$usu_id."'";
+
+      if ($mysqli->query($query) === TRUE){
+            session_start();
+            $_SESSION['Nombres']   = $nombres;
+            $_SESSION['Apellidos'] = $apellidos;
+            $_SESSION['Correo_Electronico']   = $correo;
+            echo 'correcto_1';
+          }else {
+           echo 'Fallo_5';
+          }
+
+    }//fin funcion editarUsuario password
 
 
 }

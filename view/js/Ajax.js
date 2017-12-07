@@ -2,7 +2,7 @@
 $('#regisCuenta').click(function(){
 
   var form = $('#register-form').serialize();   
-  console.log("Formulario = "+ form);
+  //console.log("Formulario = "+ form);
   
   $.ajax({
     method: 'POST',
@@ -122,4 +122,178 @@ $(document).ready(function(){
       alert('Hubo un error :(')
     })
 
+});
+
+//editar vehiculo
+$(document).on("click",'.editVehiculo',function(){
+
+  var placa = null;
+
+  placa = $(this).attr("value");
+
+ $.ajax({
+   type: 'POST',
+    url: 'http://localhost/Parking/controller/editarVehiculoController.php',
+    data: {'placa': placa},
+    dataType:"json"    
+  })
+  .done(function(res){
+     //console.log(res);
+    if(res.error == 'Fallo_1'){
+          swal('Error', 'Se ha presentado un error a la hora de consultar el vehiculo', 'warning');
+        }else{
+      //console.log(res);
+      editarVehCon(res);
+      }
+  })
+  .fail(function(res){
+    //console.log(res);
+    console.log('Se ha presentado un error a la hora de consultar el vehiculo');
+  });
+});
+
+
+//Funcion que llenara el label o el span con el valor retornado
+function editarVehCon(json){
+
+$("[name=placa]").val(json.placa);
+$("[name=Descripción]").val(json.descveh);
+$("[value=categoria]").val(json.descateg);
+
+};
+
+// Editar informacion de vehiculo
+$(document).on("click",'#editInfoVehic',function(){//esta ejecuta la acción? si 
+
+  var form = $('#editarVehiculoCli').serialize();   
+  //console.log(form);
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost/Parking/controller/editarVehiCliController.php',
+    data: form,
+    beforeSend: function(){
+      $('#load').show();
+    },
+    success: function(res){
+      $('#load').hide();
+      //console.log(res);
+
+      if(res == 'Fallo_1'){
+        swal('Error', 'Campos obligatorios, por favor llene todos los campos', 'warning');
+      }else if(res == 'Fallo_2'){
+        swal('Error', 'El numero de la placa ya se encuentra registrado o se ha presentado un error en la BD', 'error');
+      }else if(res == 'correcto_1'){
+        swal('Correcto', 'La información del vehiculo se ha actualizado correctamente', 'success');
+        setTimeout(function(){
+        location.reload();  
+      },4000);
+        
+      }
+    }
+  });
+});
+
+
+// Crear vehiculo
+$('#crearVehiculo').click(function(){
+
+  var form = $('#crearVehiculoCli').serialize();   
+  //console.log(form);
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost/Parking/controller/crearVehiCliController.php',
+    data: form,
+    beforeSend: function(){
+      $('#load').show();
+    },
+    success: function(res){
+      $('#load').hide();
+      //console.log(res);
+
+      if(res == 'Fallo_1'){
+        swal('Error', 'Campos obligatorios, por favor llene todos los campos', 'warning');
+      }else if(res == 'Fallo_2'){
+        swal('Error', 'El numero de la placa ya se encuentra registrado o se ha presentado un error en la BD', 'error');
+      }else if(res == 'correcto_1'){
+        swal('Correcto', 'El vehiculo se ha registrado correctamente', 'success');
+        setTimeout(function(){
+        location.reload();  
+      },4000);
+      }
+    }
+  });
+});
+
+
+// editar usuario 
+$('#editarUsu').click(function(){
+
+  var form = $('#editarUsuario').serialize();  
+  
+  //console.log(form);
+
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost/Parking/controller/editarUsuController.php',
+    data: form,
+    beforeSend: function(){
+      $('#load').show();
+    },
+    success: function(res){
+      $('#load').hide();
+      //console.log(res);
+
+      if(res == 'Fallo_1'){
+        swal('Error', 'Campos obligatorios, por favor llene todos los campos', 'warning');
+      }else if(res == 'Fallo_2'){
+        swal('Error', 'Por favor diligencie las contraseñas y estas deben ser iguales', 'error');
+      }else if(res == 'Fallo_3'){
+        swal('Error', 'Las contraseñas deben ser iguales', 'error');
+      }else if(res == 'Fallo_4'){
+        swal('Error', 'Por favor ingrese un correo valido', 'error');
+      }else if(res == 'Fallo_5'){
+        swal('Error', 'No se ha podido realizar la instalacion por un error en BD.', 'error');
+      }else if(res == 'correcto_1'){
+        swal('Correcto', 'La información del usuario ha sido actualizada correctamente', 'success');
+        setTimeout(function(){
+        location.reload();  
+      },4000);
+      }
+    }
+  });
+});
+
+
+//editar vehiculo
+$(document).on("click",'.eliminarVehiculo',function(){
+
+  var placa = null;
+  placa = $(this).attr("value");
+
+  //console.log("placa a eliminar  "+ placa);
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost/Parking/controller/eliminarVehiculoController.php',
+    data: {'placa': placa},
+    beforeSend: function(){
+      $('#load').show();
+    },
+    success: function(res){
+      $('#load').hide();
+      //console.log(res);
+
+      if(res == 'Fallo_2'){
+        swal('Error', 'No se ha podido eliminar el vehiculo de la base de datos', 'warning');
+      }else if(res == 'correcto_1'){
+        swal('Correcto', 'El vehiculo ha sido eliminado correctamente de la base de datos', 'success');
+        setTimeout(function(){
+        location.reload();  
+      },4000);
+      }
+    }
+  });
 });
